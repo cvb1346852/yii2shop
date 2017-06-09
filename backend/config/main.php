@@ -45,7 +45,13 @@ return [
             'rules' => [
             ],
         ],
-
+        'qiniu'=>[
+            'class' =>\backend\components\Qiniu::className(),
+            'accessKey'=>'CLerOU3r5b3ngp3vgjM0n441FOnHziQyGG-lnLi_',
+            'secretKey'=>'SNzf1dqdsNBfd7uveVq6EGxWggDMxNh_z6QzdCLW',
+            'bucket'=>'yiishop',
+            'domain'=>'http://or9rfsq68.bkt.clouddn.com',
+        ],
     ],
     'params' => $params,
 ];
