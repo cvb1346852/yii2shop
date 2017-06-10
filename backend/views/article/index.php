@@ -4,7 +4,7 @@
 <h2>文章列表</h2>
 
 <p>
-    <?=\yii\bootstrap\Html::a('添加',['article/edit'],['class'=>['btn btn-success']])?>
+    <?=\yii\bootstrap\Html::a('添加',['article/add'],['class'=>['btn btn-success']])?>
 </p>
 <table class="table table-bordered table-striped">
     <tr>
@@ -20,11 +20,11 @@
     <?php foreach ($articles as $article):?>
         <tr>
             <td><?=$article->id?></td>
-            <td><?=$article->name?></td>
+            <td><?=\yii\bootstrap\Html::a($article->name,['article/detail','id'=>$article->id])?></td>
             <td width="550"><?=$article->intro?></td>
             <td><?=$article->articleCategory->name?></td>
             <td><?=$article->sort?></td>
-            <td><?=\backend\models\ArticleCategory::$statusOptions[$article->status]; ?></td>
+            <td><?=\backend\models\Article::$statusOptions[$article->status];?></td>
             <td><?=date('Y-m-d H:i:s',$article->create_time);?></td>
             <td>
                 <?=\yii\bootstrap\Html::a('修改',['article/edit','id'=>$article->id],['class'=>['btn btn-info btn-xs']])?>
