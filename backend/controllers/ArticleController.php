@@ -20,7 +20,7 @@ class ArticleController extends \yii\web\Controller
         return $this->render('index',['articles'=>$articles,'page'=>$page]);
     }
     public function actionAdd(){
-        $article_category = ArticleCategory::find()->all();
+//        $article_category = ArticleCategory::find()->all();
         $model = new Article();
         $content = new ArticleDetail();
         if ($model->load(\yii::$app->request->post()) &&  $content->load(\yii::$app->request->post())){
@@ -34,10 +34,10 @@ class ArticleController extends \yii\web\Controller
                 var_dump($model->getErrors());exit;
             }
         }
-        return $this->render('add',['model'=>$model,'content'=>$content,'article_category'=>$article_category]);
+        return $this->render('add',['model'=>$model,'content'=>$content]);
     }
     public function actionEdit($id){
-        $article_category = ArticleCategory::find()->all();
+//        $article_category = ArticleCategory::find()->all();
         $model = Article::findOne(['id'=>$id]);
         $content = ArticleDetail::findOne(['article_id'=>$id]);
         if ($model->load(\yii::$app->request->post()) &&  $content->load(\yii::$app->request->post())){
@@ -51,7 +51,7 @@ class ArticleController extends \yii\web\Controller
                 var_dump($model->getErrors());exit;
             }
         }
-        return $this->render('add',['model'=>$model,'content'=>$content,'article_category'=>$article_category]);
+        return $this->render('add',['model'=>$model,'content'=>$content]);
     }
     public function actionDelete($id){
         $model = Article::findOne(['id'=>$id]);

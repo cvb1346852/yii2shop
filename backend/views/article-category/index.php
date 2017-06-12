@@ -4,7 +4,7 @@
 <h2>文章类型列表</h2>
 
 <p>
-    <?=\yii\bootstrap\Html::a('添加',['article-category/edit'],['class'=>['btn btn-success']])?>
+    <?=\yii\bootstrap\Html::a('添加',['article-category/add'],['class'=>['btn btn-success']])?>
 </p>
 <table class="table table-bordered table-striped">
     <tr>
@@ -23,7 +23,7 @@
         <td><?=$category->intro?></td>
         <td><?=$category->sort?></td>
         <td><?=\backend\models\ArticleCategory::$statusOptions[$category->status]; ?></td>
-        <td><?=$category->is_help==1?'帮助型':'非帮助型';?></td>
+        <td><?=$category->is_help==1?'帮助':'快讯';?></td>
         <td>
             <?=\yii\bootstrap\Html::a('修改',['article-category/edit','id'=>$category->id],['class'=>['btn btn-info btn-xs']])?>
             <?=\yii\bootstrap\Html::a('删除',['article-category/delete','id'=>$category->id],['class'=>['btn btn-danger btn-xs']])?>
