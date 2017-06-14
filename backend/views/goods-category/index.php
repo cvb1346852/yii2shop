@@ -17,11 +17,11 @@
         <td>操作</td>
     </tr>
     <?php foreach ($models as $model): ?>
-    <tr>
+    <tr data-lft="<?=$model->lft?>" data-rgt="<?=$model->rgt?>" data-tree="<?=$model->tree?>">
         <td><?=$model->id?></td>
         <td><?=str_repeat(' — ',$model->depth).$model->name?></td>
         <td><?=$model->depth?></td>
-        <td><?=$model->parent_id ==0 ? '最上级' : $model->category->name?></td>
+        <td><?=$model->parent_id ==0 ? '最上级' : $model->category->name?><span class="xiala glyphicon glyphicon-chevron-down" style="float: right"></span></td>
         <td><?=$model->intro?></td>
         <td>
             <?=\yii\bootstrap\Html::a('修改',['goods-category/edit','id'=>$model->id],['class'=>'btn btn-info btn-xs'])?>
@@ -31,3 +31,25 @@
     </tr>
     <?php endforeach;?>
 </table>
+<?php
+$js = <<<JS
+    $('.xiala').click(function() {
+      var tr = $(this).closest('tr');
+      var tree = parseInt(tr.attr('data-tree')) ;
+      var lft = parseInt(tr.attr('data-lft'));
+      var rgt = parseInt(tr.attr('data-rgt'));
+      var show = $(this).hasClass('glyphicon-chevron-up');
+      
+      $(this).toggleClass('glyphicon-chevron-up');
+      $(this).toggleClass('glyphicon-chevron-down');
+      
+      $('tr').each(function(i,v) {
+          // console.debug(this);
+        if ($(v).attr('data-tree')==tree && $(v).attr('data-lft')>lft && $(v).attr('data-rgt')<rgt){
+           show ? $(v).show() : $(v).hide();
+        }
+      })   
+      
+    })
+JS;
+$this->registerJs($js);

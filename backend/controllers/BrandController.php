@@ -78,7 +78,7 @@ class BrandController extends \yii\web\Controller
                 'enableCsrf' => true, // default
                 'postFieldName' => 'Filedata', // default
                 //BEGIN METHOD
-                'format' => [$this, 'methodName'],
+               // 'format' => [$this, 'methodName'],
                 //END METHOD
                 //BEGIN CLOSURE BY-HASH
                 'overwriteIfExist' => true,
@@ -115,6 +115,7 @@ class BrandController extends \yii\web\Controller
                     //获取七牛云地址
                     $url = $qiniu->getLink($imgUrl);
                     $action->output['fileUrl'] = $url;
+                    //$action->output['11'] = 'hahah';
 //                    $action->getFilename(); // "image/yyyymmddtimerand.jpg"
 //                    $action->getWebUrl(); //  "baseUrl + filename, /upload/image/yyyymmddtimerand.jpg"
 //                    $action->getSavePath(); // "/var/www/htdocs/upload/image/yyyymmddtimerand.jpg"

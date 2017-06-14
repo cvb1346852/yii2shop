@@ -1,14 +1,13 @@
 <?php
+
 use yii\web\JsExpression;
 
 $form = \yii\bootstrap\ActiveForm::begin();
-echo $form->field($model,'name');
-echo $form->field($model,'intro')->textInput();
-echo $form->field($model,'logo')->hiddenInput();
-//echo $form->field($model,'imgFile')->fileInput(['id'=>'test']);
+echo $form->field($model,'goods_id')->hiddenInput(['value'=>$_GET['goods_id']])->label(false);
+echo $form->field($model,'photo')->hiddenInput(['id'=>'goods-photo']);
 echo \yii\bootstrap\Html::fileInput('test',null,['id'=>'test']);
 echo \xj\uploadify\Uploadify::widget([
-    'url' => yii\helpers\Url::to(['s-upload']),
+    'url' => yii\helpers\Url::to(['upload/s-upload']),
     'id' => 'test',
     'csrf' => true,
     'renderTag' => false,
@@ -31,19 +30,17 @@ function(file, data, response) {
         //图片上传成功后将地址写入img标签
         $('#img_logo').attr('src',data.fileUrl).show();
         //图片上传成功后将地址保存到logo
-        $('#brand-logo').val(data.fileUrl);
+        $('#goods-photo').val(data.fileUrl);
     }
 }
 EOF
         ),
     ]
 ]);
-if ($model->logo){
-    echo \yii\bootstrap\Html::img($model->logo,['id'=>'img_logo','width'=>100]);
+if ($model->photo){
+    echo \yii\bootstrap\Html::img($model->photo,['id'=>'img_logo','width'=>100]);
 }else{
     echo \yii\bootstrap\Html::img('',['style'=>'display:none','id'=>'img_logo','width'=>100]);
 }
-echo $form->field($model,'sort');
-echo $form->field($model,'status',['inline'=>true])->radioList([1=>'正常',0=>'隐藏']);
-echo \yii\bootstrap\Html::submitButton('提交',['class'=>'btn btn-info']);
+echo '<div>'.\yii\bootstrap\Html::submitButton('提交',['class'=>'btn btn-success']).'</div>';
 \yii\bootstrap\ActiveForm::end();
