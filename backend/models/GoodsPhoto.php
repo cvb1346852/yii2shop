@@ -13,9 +13,7 @@ use Yii;
  */
 class GoodsPhoto extends \yii\db\ActiveRecord
 {
-    public function getGoods(){
-        return $this->hasOne(Goods::className(),['id'=>'goods_id']);
-    }
+
     /**
      * @inheritdoc
      */

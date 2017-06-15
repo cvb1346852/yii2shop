@@ -50,6 +50,12 @@ class SiteController extends Controller
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                'minLength'=>4,//验证码最小长度
+                'maxLength'=>4,//最大长度
+            ],
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\Goods;
 use backend\models\GoodsPhoto;
 use xj\uploadify\UploadAction;
 
@@ -9,9 +10,9 @@ class GoodsPhotoController extends \yii\web\Controller
 {
     public function actionIndex($id)
     {
-
+        $goods = Goods::findOne(['id'=>$id]);
         $models = GoodsPhoto::findAll(['goods_id'=>$id]);
-        return $this->render('index',['models'=>$models]);
+        return $this->render('index',['models'=>$models,'goods'=>$goods]);
     }
     public function actionAdd(){
         $model = new GoodsPhoto();
@@ -83,6 +84,7 @@ class GoodsPhotoController extends \yii\web\Controller
                     $model->save();
 //                    $imgUrl = $action->getWebUrl();//文件地址
                     $action->output['fileUrl'] = $action->getWebUrl();//回调
+                    $action->output['id'] = $model->id;//回调
                     //上传到七牛云
                     //$qiniu = \yii::$app->qiniu;
                     //$qiniu->uploadFile(\Yii::getAlias('@webroot').$imgUrl,$imgUrl);

@@ -18,8 +18,9 @@ return [
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
+            'loginUrl'=>'login',
+            'identityClass' => 'backend\models\User',//验证登陆需要修改为自己有符合接口的类
+            'enableAutoLogin' => true,//基于cookie自动登录，需要true
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [

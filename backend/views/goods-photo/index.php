@@ -5,7 +5,7 @@ use yii\web\JsExpression;
 /* @var $this yii\web\View */
 ?>
 <h2>商品相册</h2>
-<h3><?=$models[0]->goods->name?></h3>
+<h3><?=$goods->name?></h3>
 <p>
 
     <?php
@@ -16,7 +16,7 @@ use yii\web\JsExpression;
         'csrf' => true,
         'renderTag' => false,
         'jsOptions' => [
-            'formData' =>['goods_id'=>$models[0]->goods_id],
+            'formData' =>['goods_id'=>$goods->id],
             'width' => 120,
             'height' => 40,
             'onUploadError' => new JsExpression(<<<EOF
@@ -32,11 +32,13 @@ function(file, data, response) {
         console.log(data.msg);
     } else {
         console.log(data.fileUrl);
+        console.log(data);
         //图片上传成功后将地址写入img标签
         //$('#img_logo').attr('src',data.fileUrl).show();
         //图片上传成功后将地址保存到logo
         //$('#goods-logo').val(data.fileUrl);
-        var html = '<tr data-id="'+data.goods_id+'" id="photo_'+data.goods_id+'">';
+        
+        var html = '<tr data-id="'+data.id+'" id="photo_'+data.id+'">';
         html += '<td><img src="'+data.fileUrl+'" width="400"/></td>';
         html += '<td><button type="button" class="btn btn-danger btn-xs del_btn">删除</button></td></tr>';
         $('table').append(html);
@@ -68,6 +70,7 @@ $this->registerJs(new JsExpression(
     <<<EOT
     $('table').on('click','.del_btn',function(){
         var id = $(this).closest('tr').attr('data-id');
+        console.debug(id);
         $.post('{$url}',{id:id},function(data){
     console.debug(data);
             if(data === 'success'){

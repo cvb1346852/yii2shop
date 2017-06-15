@@ -85,8 +85,5 @@ class GoodsCategory extends \yii\db\ActiveRecord
     {
         return new GoodsCategotyQuery(get_called_class());
     }
-    public function parent()
-    {
-        return $this->parents(1)->one()->name;
-    }
+
 }
