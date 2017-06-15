@@ -15,7 +15,7 @@ class LoginForm extends Model{
             ['rememberMe','integer'],
             [['username','password'],'required'],
             ['username','validateUsername'],
-            ['code','captcha','captchaAction'=>'user/captcha'],
+            ['code','captcha'],
         ];
     }
     public function attributeLabels()
