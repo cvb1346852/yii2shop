@@ -52,7 +52,8 @@ echo $form->field($model,'stock');
 echo $form->field($model,'is_on_sale')->radioList(\backend\models\Goods::$saleOptions);
 echo $form->field($model,'status')->radioList(\backend\models\Goods::$statusOptions);
 echo $form->field($model,'sort');
-echo $form->field($content,'content')->textarea();
+//echo $form->field($content,'content')->textarea();
+echo $form->field($content,'content')->widget(\kucha\ueditor\UEditor::className(),[]);
 echo \yii\bootstrap\Html::submitButton('提交',['class'=>'btn btn-success']);
 \yii\bootstrap\ActiveForm::end();
 

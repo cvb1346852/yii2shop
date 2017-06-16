@@ -7,6 +7,7 @@ use backend\models\Goods;
 use backend\models\GoodsCategory;
 use backend\models\GoodsIntro;
 use backend\models\SearchForm;
+use kucha\ueditor\UEditorAction;
 use yii\data\Pagination;
 
 class GoodsController extends \yii\web\Controller
@@ -66,5 +67,13 @@ class GoodsController extends \yii\web\Controller
     public function actionIntro($id){
         $model = Goods::findOne(['id'=>$id]);
         return $this->render('intro',['model'=>$model]);
+    }
+    public function actions()
+    {
+        return [
+            'upload' => [
+                'class' => UEditorAction::className(),// 'kucha\ueditor\UEditorAction',
+            ]
+        ];
     }
 }
