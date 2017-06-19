@@ -6,7 +6,7 @@ use backend\models\Goods;
 use backend\models\GoodsPhoto;
 use xj\uploadify\UploadAction;
 
-class GoodsPhotoController extends \yii\web\Controller
+class GoodsPhotoController extends BackendController
 {
     public function actionIndex($id)
     {

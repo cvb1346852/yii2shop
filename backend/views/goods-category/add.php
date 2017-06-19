@@ -12,7 +12,7 @@ echo \yii\bootstrap\Html::submitButton('提交',['class'=>['btn btn-info']]);
 
 $this->registerCssFile('@web/zTree/css/zTreeStyle/zTreeStyle.css');
 $this->registerJsFile('@web/zTree/js/jquery.ztree.core.js',['depends'=>\yii\web\JqueryAsset::className()]);
-$zNode = \yii\helpers\Json::encode($categoty);
+$zNode = \yii\helpers\Json::encode($category);
 $js = new \yii\web\JsExpression(
     <<<JS
     var zTreeObj;

@@ -9,8 +9,9 @@ use backend\models\GoodsIntro;
 use backend\models\SearchForm;
 use kucha\ueditor\UEditorAction;
 use yii\data\Pagination;
+use yii\filters\AccessControl;
 
-class GoodsController extends \yii\web\Controller
+class GoodsController extends BackendController
 {
     public function actionIndex()
     {
@@ -76,4 +77,5 @@ class GoodsController extends \yii\web\Controller
             ]
         ];
     }
+
 }

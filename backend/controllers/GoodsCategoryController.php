@@ -4,10 +4,11 @@ namespace backend\controllers;
 
 
 use backend\models\GoodsCategory;
+use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
 
-class GoodsCategoryController extends \yii\web\Controller
+class GoodsCategoryController extends BackendController
 {
     public function actionIndex()
     {
@@ -27,9 +28,9 @@ class GoodsCategoryController extends \yii\web\Controller
             \Yii::$app->session->setFlash('success','添加成功');
             return $this->redirect(['goods-category/index']);
         }
-        $categoty = GoodsCategory::find()->asArray()->all();
-        $categoty = array_merge([['name'=>'最上级','id'=>0,'parent_id'=>0]],$categoty);
-        return $this->render('add',['model'=>$model,'categoty'=>$categoty]);
+        $category = GoodsCategory::find()->asArray()->all();
+        $category = array_merge([['name'=>'最上级','id'=>0,'parent_id'=>0]],$category);
+        return $this->render('add',['model'=>$model,'category'=>$category]);
     }
     public function actionEdit($id){
         $model = GoodsCategory::findOne(['id'=>$id]);
@@ -50,6 +51,13 @@ class GoodsCategoryController extends \yii\web\Controller
         $categoty = array_merge([['name'=>'最上级','id'=>0,'parent_id'=>0]],$categoty);
         return $this->render('add',['model'=>$model,'categoty'=>$categoty]);
     }
+    public function actionDelete($id){
+        $model = GoodsCategory::findOne(['id'=>$id]);
+        $model->delete();
+        \Yii::$app->session->setFlash('success','删除成功');
+        return $this->redirect(['goods-category/index']);
+    }
+
 
     public function actionTest(){
         //添加1级分类

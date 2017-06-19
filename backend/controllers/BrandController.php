@@ -4,12 +4,13 @@ namespace backend\controllers;
 
 use backend\models\Brand;
 use yii\data\Pagination;
+use yii\filters\AccessControl;
 use yii\web\Request;
 use yii\web\UploadedFile;
 use xj\uploadify\UploadAction;
 use crazyfd\qiniu\Qiniu;
 
-class BrandController extends \yii\web\Controller
+class BrandController extends BackendController
 {
     public function actionIndex()
     {
@@ -67,6 +68,7 @@ class BrandController extends \yii\web\Controller
         \yii::$app->session->setFlash('success','删除成功');
         return $this->redirect(['brand/index']);
     }
+
 
     //上传
     public function actions() {
