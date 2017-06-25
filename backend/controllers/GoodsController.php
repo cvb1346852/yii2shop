@@ -13,6 +13,7 @@ use yii\filters\AccessControl;
 
 class GoodsController extends BackendController
 {
+
     public function actionIndex()
     {
         $search = new searchForm();
@@ -34,6 +35,7 @@ class GoodsController extends BackendController
             if ($model->validate() && $content->validate()){
                 $model->save(false);
                 $content->goods_id = $model->id;
+                $content->imgSrc();
                 $content->save(false);
                 \Yii::$app->session->setFlash('success','添加成功');
                 return $this->redirect(['goods/index']);
@@ -49,6 +51,7 @@ class GoodsController extends BackendController
             if ($model->validate() && $content->validate()){
                 $model->save(false);
                 $content->goods_id = $model->id;
+                $content->imgSrc();
                 $content->save(false);
                 \Yii::$app->session->setFlash('success','修改成功');
                 return $this->redirect(['goods/index']);

@@ -47,9 +47,9 @@ class GoodsCategoryController extends BackendController
             \Yii::$app->session->setFlash('success','修改成功');
             return $this->redirect(['goods-category/index']);
         }
-        $categoty = GoodsCategory::find()->asArray()->all();
-        $categoty = array_merge([['name'=>'最上级','id'=>0,'parent_id'=>0]],$categoty);
-        return $this->render('add',['model'=>$model,'categoty'=>$categoty]);
+        $category = GoodsCategory::find()->asArray()->all();
+        $category = array_merge([['name'=>'最上级','id'=>0,'parent_id'=>0]],$category);
+        return $this->render('add',['model'=>$model,'category'=>$category]);
     }
     public function actionDelete($id){
         $model = GoodsCategory::findOne(['id'=>$id]);

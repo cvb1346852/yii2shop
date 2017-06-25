@@ -22,8 +22,8 @@
         <td><?=$brand->sort?></td>
         <td><?=\backend\models\Brand::$statusOptions[$brand->status];?></td>
         <td>
-            <?=\yii\bootstrap\Html::a('修改',['brand/edit','id'=>$brand->id],['class'=>['btn btn-info btn-xs']])?>
-            <?=\yii\bootstrap\Html::a('删除',['brand/delete','id'=>$brand->id],['class'=>['btn btn-danger btn-xs']])?>
+            <?=Yii::$app->user->can('brand/edit') ? \yii\bootstrap\Html::a('修改',['brand/edit','id'=>$brand->id],['class'=>['btn btn-info btn-xs']]):''?>
+            <?=Yii::$app->user->can('brand/edit') ? \yii\bootstrap\Html::a('删除',['brand/delete','id'=>$brand->id],['class'=>['btn btn-danger btn-xs']]) : ''?>
         </td>
     </tr>
     <?php endforeach;?>

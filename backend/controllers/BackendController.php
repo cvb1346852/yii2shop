@@ -11,6 +11,7 @@ class BackendController extends Controller{
         return [
           'rbac'=>[
               'class'=>RbacFilter::className(),
+              'only' =>['index'] ,
           ]
         ];
     }

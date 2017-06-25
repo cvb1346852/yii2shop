@@ -5,8 +5,9 @@ namespace backend\controllers;
 use backend\models\Goods;
 use backend\models\GoodsPhoto;
 use xj\uploadify\UploadAction;
+use yii\web\Controller;
 
-class GoodsPhotoController extends BackendController
+class GoodsPhotoController extends Controller
 {
     public function actionIndex($id)
     {
@@ -60,12 +61,13 @@ class GoodsPhotoController extends BackendController
                 //END CLOSURE BY-HASH
                 //BEGIN CLOSURE BY TIME
                 'format' => function (UploadAction $action) {
-                    $fileext = $action->uploadfile->getExtension();
+                    $fileext = $action->uploadfile;//->getExtension();
                     $filehash = sha1(uniqid() . time());
 //                    $p1 = substr($filehash, 0, 2);
 //                    $p2 = substr($filehash, 2, 2);
 //                    return "{$p1}/{$p2}/{$filehash}.{$fileext}";
-                    return date('Ym')."/{$filehash}.{$fileext}";
+//                    return date('Ym')."/{$filehash}.{$fileext}";
+                    return date('Ym')."/{$fileext}";
                 },
                 //END CLOSURE BY TIME
                 'validateOptions' => [

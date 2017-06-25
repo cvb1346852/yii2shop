@@ -17,7 +17,8 @@ return [
             'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'loginUrl'=>'member/login',
+            'identityClass' => \frontend\models\Member::className(),
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],
@@ -41,9 +42,17 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'suffix'=>'.html',
             'rules' => [
             ],
         ],
+        'sms'=>[
+            'class'=>\frontend\components\Sms::className(),
+            'appKey'=>'24479866',
+            'appSecret' => 'b21941d45ff1f224bd4ca00b77f3612e',
+            'FreeSignName'=>'蒋鹏的网站',
+            'TemplateCode'=>'SMS_71595198',
+        ]
 
     ],
     'params' => $params,
