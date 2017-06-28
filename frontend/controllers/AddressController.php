@@ -54,8 +54,8 @@ class AddressController extends \yii\web\Controller
 
         return $this->redirect(['address/index']);
     }
-    public function actionGetlist($parent_id,$level){
+    /*public function actionGetlist($parent_id,$level){
         $province = Locations::find()->where(['parent_id'=>$parent_id])->andWhere(['level'=>$level])->all();
         return Json::encode($province);
-    }
+    }*/
 }

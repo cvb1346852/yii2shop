@@ -161,7 +161,7 @@
                                     <a href="javascript:;" id="reduce_num"></a>
                                     <input type="text" name="amount" value="1" class="amount"/>
                                     <input type="hidden" name="goods_id" value="<?=$goods->id?>">
-                                    <input name="_csrf-frontend" type="hidden" id="_csrf-frontend" value="<?= Yii::$app->request->csrfToken ?>">
+                                    <input name="_csrf-frontend" type="hidden" id="_csrf-frontend" value="<?= Yii::$app->request->csrfToken ?>"><!--跨域问题-->
                                     <a href="javascript:;" id="add_num"></a>
                                 </dd>
                             </dl>

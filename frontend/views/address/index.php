@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Html;
 ?>
 <!-- 页面主体 start -->
 <div class="main w1210 bc mt10">
@@ -13,7 +14,7 @@
         <div class="menu_wrap">
             <dl>
                 <dt>订单中心 <b></b></dt>
-                <dd><b>.</b><a href="">我的订单</a></dd>
+                <dd><b>.</b><?=Html::a('我的订单',['goods/order-list'])?></dd>
                 <dd><b>.</b><a href="">我的关注</a></dd>
                 <dd><b>.</b><a href="">浏览历史</a></dd>
                 <dd><b>.</b><a href="">我的团购</a></dd>
@@ -25,7 +26,7 @@
                 <dd><b>.</b><a href="">账户余额</a></dd>
                 <dd><b>.</b><a href="">消费记录</a></dd>
                 <dd><b>.</b><a href="">我的积分</a></dd>
-                <dd><b>.</b><a href="">收货地址</a></dd>
+                <dd><b>.</b><?=\yii\helpers\Html::a('收货地址',['address/index'])?></dd>
             </dl>
 
             <dl>

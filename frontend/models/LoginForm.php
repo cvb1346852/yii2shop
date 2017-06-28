@@ -64,7 +64,7 @@ class LoginForm extends Model{
                 'name'=>'cart','value'=>''
             ]);
             $cookies = \Yii::$app->response->cookies;
-            $cookies->remove($cookie);//清空购物车
+            $cookies->remove($cookie);//清空cookie购物车
         }
     }
 

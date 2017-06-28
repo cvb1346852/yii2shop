@@ -19,8 +19,7 @@ class MemberController extends \yii\web\Controller
     public function actionIndex()
     {
         $this->layout='Index';
-        $categorys = GoodsCategory::find()->where(['parent_id'=>0])->all();
-        return $this->render('index',['categorys'=>$categorys]);
+        return $this->render('index');
     }
     public function actionRegister(){
         $model = new Member();
@@ -36,12 +35,18 @@ class MemberController extends \yii\web\Controller
     }
     //用户登录
     public function actionLogin(){
+
         $model = new LoginForm();
         if ($model->load(\Yii::$app->request->post()) && $model->validate()){
 //            \Yii::$app->session->setFlash('success','登录成功');
             $model->addCart();
-            return $this->redirect(['member/index']);
+            if (\Yii::$app->user->getReturnUrl() == '/'){
+                return $this->redirect(['member/index']);//返回主页
+            }else{
+                return $this->goBack();//返回登录前页面
+            }
         }
+        \Yii::$app->user->setReturnUrl(\Yii::$app->request->referrer);//设置goBack为登录前页面
         return $this->render('login',['model'=>$model]);
     }
     public function actionLogout(){

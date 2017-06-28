@@ -18,6 +18,8 @@ class CategoryWidget extends Widget{
         if ($category_html == null){*/
             $catetorys = GoodsCategory::findAll(['parent_id'=>0]);
             $category_html = $this->renderFile('@app/widgets/views/category.php',['categorys'=>$catetorys]);
+
+//        $redis->set('category_html',$category_html)
 //        }
         return $category_html;
     }
