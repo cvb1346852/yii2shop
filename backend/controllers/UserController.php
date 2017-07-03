@@ -24,7 +24,7 @@ class UserController extends \yii\web\Controller
         $user = new User(['scenario'=>User::SCENARIO_ADD]);
         if ($user->load(\Yii::$app->request->post()) && $user->validate()){
             $user->save(false);
-            var_dump($user->roles);exit;
+//            var_dump($user->roles);exit;
             $user->addRoldes();
             \Yii::$app->session->setFlash('success','添加成功');
             return $this->redirect(['user/index']);
@@ -69,7 +69,7 @@ class UserController extends \yii\web\Controller
         \Yii::$app->user->logout();
         return $this->redirect(['user/login']);
     }
-    public function behaviors()
+    /*public function behaviors()
     {
         return [
             'rbac'=>[
@@ -77,5 +77,5 @@ class UserController extends \yii\web\Controller
                 'only'=>['add','index','edit','delete'],
             ]
         ];
-    }
+    }*/
 }

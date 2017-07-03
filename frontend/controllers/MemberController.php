@@ -19,7 +19,7 @@ class MemberController extends \yii\web\Controller
     public $layout='login';
     public function actionIndex()
     {
-        $this->layout='Index';
+        $this->layout='index';
         return $this->render('index');
     }
     public function actionRegister(){

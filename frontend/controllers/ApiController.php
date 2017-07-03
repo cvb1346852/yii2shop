@@ -541,18 +541,17 @@ class ApiController extends Controller{
         }
     }
     //验证码
-    public function actions()
+    /*public function actions()
     {
         return [
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-//                'captchaAction' => 'site/captcha',
                 'minLength'=>4,//验证码最小长度
                 'maxLength'=>4,//最大长度
             ],
         ];
-    }
+    }*/
     //上传图片
     public function actionUpload(){
         $img = UploadedFile::getInstanceByName('img');
