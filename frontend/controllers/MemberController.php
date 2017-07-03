@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 
+use backend\models\Goods;
 use backend\models\GoodsCategory;
 use frontend\models\Address;
 use frontend\models\LoginForm;

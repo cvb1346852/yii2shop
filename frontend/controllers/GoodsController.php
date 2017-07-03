@@ -3,10 +3,14 @@ namespace frontend\controllers;
 
 use backend\models\Brand;
 use backend\models\GoodsCategory;
+use frontend\components\SphinxClient;
 use frontend\models\Cart;
 use frontend\models\Order;
 use frontend\models\OrderGoods;
+use frontend\models\SearchForm;
+use yii\data\Pagination;
 use yii\db\Exception;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use backend\models\Goods;
 use yii\web\Cookie;
@@ -15,9 +19,48 @@ use yii\web\NotFoundHttpException;
 class GoodsController extends Controller{
 
     public $layout='goods';
+    public function actionList(){
+        $goodses = Goods::find();
+        if($keyword = \Yii::$app->request->get('keyword')){
+            $cl = new SphinxClient();
+            $cl->SetServer ( '127.0.0.1', 9312);
+            $cl->SetConnectTimeout ( 10 );
+            $cl->SetArrayResult ( true );
+            $cl->SetMatchMode ( SPH_MATCH_ALL);
+            $cl->SetLimits(0, 1000);
+            $info = $keyword;
+            $res = $cl->Query($info, 'goods');
+            if (!isset($res['matches'])){
+                $goodses->where(['id'=>0]);
+            }else{
+                $ids = ArrayHelper::map($res['matches'],'id','id');
+                $goodses->where(['in','id',$ids]);
+            }
+        }
+        /*$page = new Pagination([
+            'totalCount'=>$goodses->count(),
+            'pageSize' => 3,
+        ]);*/
 
+        $goodses = $goodses->all();
+        $brands = Brand::find()->all();
+
+        $keywords = array_keys($res['words']);
+        $options = array(
+            'before_match' => '<span style="color:red;">',
+            'after_match' => '</span>',
+            'chunk_separator' => '...',
+            'limit' => 80, //如果内容超过80个字符，就使用...隐藏多余的的内容
+        );
+//关键字高亮
+        foreach ($goodses as $index => $item) {
+            $name = $cl->BuildExcerpts([$item->name], 'goods', implode(',', $keywords), $options); //使用的索引不能写*，关键字可以使用空格、逗号等符号做分隔，放心，sphinx很智能，会给你拆分的
+            $goodses[$index]->name = $name[0];
+        }
+        return $this->render('goods-list',['goodses'=>$goodses,'brands'=>$brands]);
+    }
     public function actionGoodsList($lft,$rgt){
-        $categorys = GoodsCategory::find()->where(['>','lft',$lft])->andWhere(['<','rgt',$rgt])->all();
+        $categorys = GoodsCategory::find()->where(['>=','lft',$lft])->andWhere(['<=','rgt',$rgt])->all();
         $goodses = [];
         foreach ($categorys as $category){
             $goods = Goods::findAll(['goods_category_id'=>$category->id]);
@@ -141,6 +184,7 @@ class GoodsController extends Controller{
             }
         }
     }
+    //购物车结算
     public function actionFlow2(){
         $this->layout='cart';
         if (\Yii::$app->user->isGuest){
@@ -160,6 +204,7 @@ class GoodsController extends Controller{
             return $this->render('flow2',['models'=>$models,'member'=>$member,'n'=>$n,'sum'=>$sum]);
         }
     }
+    //提交订单
     public function actionFlow3(){
         $this->layout='cart';
         $order = new Order();
@@ -172,6 +217,9 @@ class GoodsController extends Controller{
                 $order->save();
                 $id = $order->id;
                 $carts = Cart::findAll(['member_id'=>$order->member_id]);
+                if ($carts == null){
+                    throw new Exception('请先添加商品到购物车');
+                }
                 foreach ($carts as $cart){
                     $amount = $cart->amount;
                     $goods = Goods::findOne(['id'=>$cart->goods_id]);
@@ -181,12 +229,14 @@ class GoodsController extends Controller{
                     if ($goods->stock > $amount){//判断库存是否足够
                         $order_goods = new OrderGoods();
                         $order_goods->data($goods,$amount,$id);
-                        $order_goods->validate();
-                        $order_goods->save();
-                        $goods->stock = $goods->stock - $amount;//修改库存
-                        $goods->save();
-                        $cart->delete();//删除购物车
-
+                        if($order_goods->validate()){
+                            $order_goods->save();
+                            $goods->stock = $goods->stock - $amount;//修改库存
+                            $goods->save(false);
+                            $cart->delete();//删除购物车
+                        }else{
+                            throw new Exception($order_goods->getErrors());
+                        };
                     }else{
                        throw new Exception('库存不够了');
                     }
