@@ -55,7 +55,7 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['member_id', 'delivery_id', 'payment_id', 'total'], 'required'],
+            [['member_id','address_id', 'delivery_id', 'payment_id', 'total'], 'required'],
             [['member_id', 'delivery_id', 'payment_id', 'status', 'create_time'], 'integer'],
             [['delivery_price', 'total'], 'number'],
             [['name', 'delivery_name'], 'string', 'max' => 50],
@@ -95,7 +95,8 @@ class Order extends \yii\db\ActiveRecord
     }
     public function data($data){
         $this->member_id = Yii::$app->user->getId();
-        $address = Address::findOne(['id'=>$data['address_id'],'member_id'=>$this->member_id]);
+        $this->address_id = $data['address_id'];
+        $address = Address::findOne(['id'=>$this->address_id,'member_id'=>$this->member_id]);
         $this->name = $address->name;
         $this->province = $address->province;
         $this->city = $address->city;

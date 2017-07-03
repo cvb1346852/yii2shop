@@ -16,7 +16,7 @@ class LoginForm extends Model{
             [['username','password'],'required'],
             ['username','validateUsername'],
             ['rememberMe','integer'],
-            ['code','captcha'],
+//            ['code','captcha'],
         ];
     }
     public function attributeLabels()
@@ -67,5 +67,4 @@ class LoginForm extends Model{
             $cookies->remove($cookie);//清空cookie购物车
         }
     }
-
 }

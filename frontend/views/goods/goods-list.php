@@ -262,6 +262,13 @@
         <!-- 商品列表 end-->
 
         <!-- 分页信息 start -->
+        <?php
+            /*echo \yii\widgets\LinkPager::widget([
+                    'pagination'=>$page,
+                    'nextPageLabel' => '下一页',
+                    'prevPageLabel' => '上一页'
+            ]);*/
+        ?>
         <div class="page mt20">
             <a href="">首页</a>
             <a href="">上一页</a>

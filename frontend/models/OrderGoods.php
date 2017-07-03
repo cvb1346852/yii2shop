@@ -55,8 +55,8 @@ class OrderGoods extends \yii\db\ActiveRecord
             'total' => '小计',
         ];
     }
-    public function data($goods,$amount,$id){
-        $this->order_id = $id;
+    public function data($goods,$amount,$order_id){
+        $this->order_id = $order_id;
         $this->goods_id = $goods->id;
         $this->goods_name = $goods->name;
         $this->logo = 'html://admin.yiishop.com'.$goods->logo;
