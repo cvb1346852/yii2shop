@@ -12,6 +12,7 @@ use yii\web\Controller;
 use EasyWeChat\Foundation\Application;
 
 class WechatController extends Controller{
+    public $layout=false;
     //关闭csrf跨站验证
     public $enableCsrfValidation = false;
     //用于与微信通信
@@ -52,10 +53,9 @@ class WechatController extends Controller{
                             $openid = $message->FromUserName;
                             $member = Member::findOne(['openid'=>$openid]);
                             if ($member == null){
-                                return '解绑失败';//$this->redirect(['wechat/login']);
+                                return '请先绑定 ->'.Url::to(['wechat/login'],true);//$this->redirect(['wechat/login']);
                             }else{
                                 Member::updateAll(['openid'=>''],'id='.$member->id);
-                                \Yii::$app->session->remove('openid');
                                 return '解绑成功';
                             }
                             break;
@@ -233,9 +233,10 @@ class WechatController extends Controller{
     //订单
     public function actionOrder(){
         $openid = \Yii::$app->session->get('openid');
+        \Yii::$app->session->set('redirect',\Yii::$app->controller->action->uniqueId);
         if($openid == null){
             //获取用户的基本信息（openid），需要通过微信网页授权
-            \Yii::$app->session->set('redirect',\Yii::$app->controller->action->uniqueId);
+
             //echo 'wechat-user';
             $app = new Application(\Yii::$app->params['wechat']);
             //发起网页授权
@@ -246,7 +247,9 @@ class WechatController extends Controller{
 
         $member = Member::findOne(['openid'=>$openid]);
         if ($member){
-            $order = Order::findAll(['member_id'=>$member->id]);
+            $models = Order::findAll(['member_id'=>$member->id]);
+            $this->layout='goods';
+            return $this->render('../goods/order-list',['models'=>$models]);
             var_dump($order);
         }else{
             return $this->redirect(['wechat/login']);
@@ -255,9 +258,9 @@ class WechatController extends Controller{
     //地址
     public function actionAddress(){
         $openid = \Yii::$app->session->get('openid');
+        \Yii::$app->session->set('redirect',\Yii::$app->controller->action->uniqueId);
         if($openid == null){
             //获取用户的基本信息（openid），需要通过微信网页授权
-            \Yii::$app->session->set('redirect',\Yii::$app->controller->action->uniqueId);
             //echo 'wechat-user';
             $app = new Application(\Yii::$app->params['wechat']);
             //发起网页授权
@@ -268,7 +271,10 @@ class WechatController extends Controller{
 
         $member = Member::findOne(['openid'=>$openid]);
         if ($member){
-            $address = Address::findAll(['member_id'=>$member->id]);
+            $model = new Address();
+            $addresses = Address::findAll(['member_id'=>$member->id]);
+            $this->layout='goods';
+            return $this->render('../address/index',['addresses'=>$addresses,'model'=>$model]);
             var_dump($address);
         }else{
             return $this->redirect(['wechat/login']);
@@ -302,28 +308,5 @@ class WechatController extends Controller{
             }
         }
         return $this->render('edit-pwd');
-    }
-    //解绑
-    public function actionLogout(){
-        $openid = \Yii::$app->session->get('openid');
-        if($openid == null){
-            //获取用户的基本信息（openid），需要通过微信网页授权
-            \Yii::$app->session->set('redirect',\Yii::$app->controller->action->uniqueId);
-            //echo 'wechat-user';
-            $app = new Application(\Yii::$app->params['wechat']);
-            //发起网页授权
-            $response = $app->oauth->scopes(['snsapi_base'])
-                ->redirect();
-            $response->send();
-        }
-
-        $member = Member::findOne(['openid'=>$openid]);
-        if ($member == null){
-            return '解绑失败';//$this->redirect(['wechat/login']);
-        }else{
-            Member::updateAll(['openid'=>''],'id='.$member->id);
-            \Yii::$app->session->remove('openid');
-            return '解绑成功';
-        }
     }
 }

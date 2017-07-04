@@ -75,7 +75,7 @@ use yii\helpers\Html;
                     <td><a href=""><?=$model->id?></a></td>
                     <td><a href=""><img src="images/order1.jpg" alt="" /></a></td>
                     <td><?=$model->name?></td>
-                    <td>￥<?=$model->total?> <?=\frontend\models\Order::$_pay[$model->id]['name']; ?></td>
+                    <td>￥<?=$model->total?> <?=\frontend\models\Order::$_pay[$model->delivery_id]['name']; ?></td>
                     <td><?=date('Y-m-d H:i:s',$model->create_time)?></td>
                     <td><?=\frontend\models\Order::$_statusOptions[$model->status] ?></td>
                     <td><a href="">查看</a> | <a href="">删除</a></td>
