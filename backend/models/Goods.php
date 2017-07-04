@@ -25,7 +25,7 @@ use yii\helpers\ArrayHelper;
 class Goods extends \yii\db\ActiveRecord
 {
     public static $saleOptions = [1=>'在售',0=>'下架'];
-    public static $statusOptions = [1=>'正常',0=>'回收站'];
+    public static $statusOptions = [1=>'正常',0=>'回收站',2=>'促销'];
 
     public function getGoodsCategory(){
         return $this->hasOne(GoodsCategory::className(),['id'=>'goods_category_id']);
