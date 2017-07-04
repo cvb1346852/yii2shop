@@ -49,8 +49,15 @@ class WechatController extends Controller{
                             return [$news1,$news2];
                             break;
                         case '解除绑定':
-                            //$this->redirect(['wechat/logout']);
-                            return $message->FromUserName;
+                            $openid = $message->FromUserName;
+                            $member = Member::findOne(['openid'=>$openid]);
+                            if ($member == null){
+                                return '解绑失败';//$this->redirect(['wechat/login']);
+                            }else{
+                                Member::updateAll(['openid'=>''],'id='.$member->id);
+                                \Yii::$app->session->remove('openid');
+                                return '解绑成功';
+                            }
                             break;
                         case '帮助':
                             return '您可以发送 优惠、解除绑定 等信息';
