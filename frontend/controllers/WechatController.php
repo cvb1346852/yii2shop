@@ -50,7 +50,7 @@ class WechatController extends Controller{
                             break;
                         case '解除绑定':
                             //$this->redirect(['wechat/logout']);
-                            return '123';
+                            return $message->FromUserName;
                             break;
                         case '帮助':
                             return '您可以发送 优惠、解除绑定 等信息';
